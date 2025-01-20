@@ -31,18 +31,9 @@ Start the development environment by running:
 pnpm dev
 ```
 
-This will start both the Next.js web application.
+This will start the Next.js web application.
 
 - The Next.js app will be available at `http://localhost:3000`
-
-### 3. Deploying the Project
-
-#### Deploying the Next.js App to Vercel
-
-1. Create a new project on [Vercel](https://vercel.com/).
-2. Select the `apps/nextjs` folder as the root directory.
-3. Add the necessary environment variables (e.g., `DATABASE_URL`).
-4. Deploy the project and use the provided URL for further integration.
 
 ---
 
