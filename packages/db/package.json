@@ -1,20 +1,12 @@
 {
-  "name": "@acme/db",
+  "name": "@inf/db",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
-    },
-    "./client": {
-      "types": "./dist/client.d.ts",
-      "default": "./src/client.ts"
-    },
-    "./schema": {
-      "types": "./dist/schema.d.ts",
-      "default": "./src/schema.ts"
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./src/types.ts"
     }
   },
   "license": "MIT",
@@ -24,26 +16,36 @@
     "dev": "tsc",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "push": "pnpm with-env drizzle-kit push",
-    "studio": "pnpm with-env drizzle-kit studio",
+    "push": "pnpm with-env pnpm prisma migrate dev --skip-seed && pnpm seed",
+    "seed": "pnpm with-env prisma db seed",
+    "migrate": "pnpm with-env npx prisma migrate dev",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv -e ../../.env --"
   },
-  "dependencies": {
-    "@vercel/postgres": "^0.10.0",
-    "drizzle-orm": "^0.36.4",
-    "drizzle-zod": "^0.5.1",
-    "zod": "catalog:"
+  "prisma": {
+    "seed": "echo 'No seed script defined, yet...'"
   },
+  "author": "",
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
-    "dotenv-cli": "^7.4.4",
-    "drizzle-kit": "^0.28.1",
+    "@inf/eslint-config": "workspace:*",
+    "@inf/prettier-config": "workspace:*",
+    "@inf/tsconfig": "workspace:*",
+    "@types/pg": "8.11.10",
+    "@types/semver": "7.5.8",
+    "dotenv": "16.4.5",
     "eslint": "catalog:",
+    "kysely": "0.27.4",
     "prettier": "catalog:",
+    "prisma": "5.21.1",
+    "radash": "12.1.0",
+    "tsconfig-paths": "4.2.0",
+    "tsx": "4.19.2",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "dependencies": {
+    "@prisma/client": "5.21.1",
+    "prisma-kysely": "1.8.0",
+    "semver": "7.6.3"
+  },
+  "prettier": "@inf/prettier-config"
 }

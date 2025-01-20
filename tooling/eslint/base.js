@@ -56,7 +56,7 @@ export default tseslint.config(
     rules: {
       ...turboPlugin.configs.recommended.rules,
       "@typescript-eslint/no-unused-vars": [
-        "error",
+        "off",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
       "@typescript-eslint/consistent-type-imports": [
@@ -74,6 +74,8 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-non-null-assertion": "error",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/require-await": "off",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     },
   },

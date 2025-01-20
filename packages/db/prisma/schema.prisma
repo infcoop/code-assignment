@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator kysely {
+  provider             = "prisma-kysely"
+  output               = "../src"
+  fileName             = "types.ts"
+  // Optionally generate runtime enums to a separate file
+  enumFileName         = "enums.ts"
+  decimalTypeOverride  = "number"
+  dateTimeTypeOverride = "string"
+  previewFeatures      = ["prismaSchemaFolder"]
+}
+
+model posts {
+  id                  String    @id @default(uuid())
+  title               String
+  content             String
+  published           Boolean   @default(false)
+  created_at          DateTime  @default(now()) 
+  updated_at          DateTime  @default(now()) 
+  author_id           String    
+}

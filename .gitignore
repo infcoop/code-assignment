@@ -13,16 +13,9 @@ coverage
 out/
 next-env.d.ts
 
-# nitro
-.nitro/
-.output/
-
-# expo
-.expo/
-expo-env.d.ts
-apps/expo/.gitignore
-apps/expo/ios
-apps/expo/android
+# db
+prisma/dev.db
+prisma/dev.db-journal
 
 # production
 build

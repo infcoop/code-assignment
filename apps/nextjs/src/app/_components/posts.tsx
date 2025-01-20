@@ -1,9 +1,8 @@
 "use client";
 
-import type { RouterOutputs } from "@acme/api";
-import { CreatePostSchema } from "@acme/db/schema";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
+import type { RouterOutputs } from "@inf/api";
+import { cn } from "@inf/ui";
+import { Button } from "@inf/ui/button";
 import {
   Form,
   FormControl,
@@ -11,15 +10,19 @@ import {
   FormItem,
   FormMessage,
   useForm,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { toast } from "@acme/ui/toast";
+} from "@inf/ui/form";
+import { Input } from "@inf/ui/input";
+import { toast } from "@inf/ui/toast";
+import { z } from "zod";
 
 import { api } from "~/trpc/react";
 
 export function CreatePostForm() {
   const form = useForm({
-    schema: CreatePostSchema,
+    schema: z.object({
+      content: z.string(),
+      title: z.string(),
+    }),
     defaultValues: {
       content: "",
       title: "",
