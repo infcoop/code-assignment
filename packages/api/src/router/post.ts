@@ -5,11 +5,13 @@ import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const postRouter = {
   all: publicProcedure.query(({ ctx }) => {
-    return  [{
+    return [
+      {
         id: "1",
         title: "Hello, world!",
         content: "This is a post",
-      }]
+      },
+    ];
   }),
 
   byId: publicProcedure
@@ -18,7 +20,8 @@ export const postRouter = {
       return {
         id: "1",
         title: "Hello, world!",
-        content: "This is a post",}
+        content: "This is a post",
+      };
     }),
 
   create: protectedProcedure
@@ -27,10 +30,11 @@ export const postRouter = {
       return {
         id: "2",
         title: "Hello, world!",
-        content: "This is a post",}
+        content: "This is a post",
+      };
     }),
 
   delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
-    return "success"
+    return "success";
   }),
 } satisfies TRPCRouterRecord;

@@ -1,5 +1,7 @@
 "use client";
 
+import { z } from "zod";
+
 import type { RouterOutputs } from "@inf/api";
 import { cn } from "@inf/ui";
 import { Button } from "@inf/ui/button";
@@ -13,7 +15,6 @@ import {
 } from "@inf/ui/form";
 import { Input } from "@inf/ui/input";
 import { toast } from "@inf/ui/toast";
-import { z } from "zod";
 
 import { api } from "~/trpc/react";
 
