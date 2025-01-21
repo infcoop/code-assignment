@@ -10,4 +10,4 @@ This package exist to make database development possible with prisma.
 
 ## Development
 
-Change the prisma model, then use `pnpm push` to create the migration file.
+Change the prisma model, then use `pnpm migrate` to create the migration file.

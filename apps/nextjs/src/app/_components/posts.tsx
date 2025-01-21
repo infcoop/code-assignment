@@ -1,8 +1,11 @@
 "use client";
 
+import type { ZodType } from "zod";
 import { z } from "zod";
 
 import type { RouterOutputs } from "@inf/api";
+import type { Insertable } from "@inf/db/helpers";
+import type { posts } from "@inf/db/types";
 import { cn } from "@inf/ui";
 import { Button } from "@inf/ui/button";
 import {
@@ -21,12 +24,14 @@ import { api } from "~/trpc/react";
 export function CreatePostForm() {
   const form = useForm({
     schema: z.object({
-      content: z.string(),
       title: z.string(),
-    }),
+      content: z.string(),
+      author_id: z.string(),
+    }) satisfies ZodType<Insertable<posts>>,
     defaultValues: {
       content: "",
       title: "",
+      author_id: "",
     },
   });
 
@@ -49,6 +54,7 @@ export function CreatePostForm() {
     <Form {...form}>
       <form
         className="flex w-full max-w-2xl flex-col gap-4"
+        action={"/"}
         onSubmit={form.handleSubmit((data) => {
           createPost.mutate(data);
         })}
@@ -77,7 +83,7 @@ export function CreatePostForm() {
             </FormItem>
           )}
         />
-        <Button>Create</Button>
+        <Button type="submit">Create</Button>
       </form>
     </Form>
   );
@@ -88,13 +94,15 @@ export function PostList() {
 
   if (posts.length === 0) {
     return (
-      <div className="relative flex w-full flex-col gap-4">
+      <div className="relative flex min-h-16 w-full flex-col gap-4">
         <PostCardSkeleton pulse={false} />
         <PostCardSkeleton pulse={false} />
         <PostCardSkeleton pulse={false} />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/10">
-          <p className="text-2xl font-bold text-white">No posts yet</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <p className="text-2xl font-bold text-stone-500/[0.5]">
+            No posts yet
+          </p>
         </div>
       </div>
     );
@@ -136,7 +144,7 @@ export function PostCard(props: {
         <Button
           variant="ghost"
           className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
-          onClick={() => deletePost.mutate(props.post.id)}
+          onClick={() => deletePost.mutate({ id: props.post.id })}
         >
           Delete
         </Button>
@@ -152,7 +160,7 @@ export function PostCardSkeleton(props: { pulse?: boolean }) {
       <div className="flex-grow">
         <h2
           className={cn(
-            "w-1/4 rounded bg-primary text-2xl font-bold",
+            "w-1/4 rounded bg-stone-500/[0.2] text-2xl font-bold",
             pulse && "animate-pulse",
           )}
         >
@@ -160,7 +168,7 @@ export function PostCardSkeleton(props: { pulse?: boolean }) {
         </h2>
         <p
           className={cn(
-            "mt-2 w-1/3 rounded bg-current text-sm",
+            "mt-2 w-1/3 rounded bg-stone-500/[0.2] text-sm",
             pulse && "animate-pulse",
           )}
         >

@@ -1,40 +1,69 @@
 import type { TRPCRouterRecord } from "@trpc/server";
+import type { Insertable } from "kysely";
+import type { ZodType } from "zod";
 import { z } from "zod";
+import { randomUUID } from 'node:crypto';
+
+import type { posts } from "@inf/db/types";
+import { db } from "@inf/db";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const postRouter = {
-  all: publicProcedure.query(({ ctx }) => {
-    return [
-      {
-        id: "1",
-        title: "Hello, world!",
-        content: "This is a post",
-      },
-    ];
+  all: publicProcedure.query(async ({ ctx }) => {
+    const posts = await db.selectFrom("posts").selectAll().execute();
+    return posts;
   }),
 
   byId: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(({ ctx, input }) => {
-      return {
-        id: "1",
-        title: "Hello, world!",
-        content: "This is a post",
-      };
+    .query(async ({ ctx, input }) => {
+      const post = await db
+        .selectFrom("posts")
+        .selectAll()
+        .where("id", "=", input.id)
+        .executeTakeFirst();
+
+      return post;
     }),
 
   create: protectedProcedure
-    .input(z.object({ title: z.string() }))
-    .mutation(({ ctx, input }) => {
-      return {
-        id: "2",
-        title: "Hello, world!",
-        content: "This is a post",
-      };
+    .input(
+      z.object({
+        title: z.string(),
+        content: z.string(),
+        author_id: z.string(),
+      }) satisfies ZodType<Insertable<posts>>,
+    )
+    .mutation(async ({ ctx, input }) => {
+      const post = await db
+        .insertInto("posts")
+        .returning(["id"])
+        .values({
+          id: randomUUID(),
+          title: input.title,
+          content: input.content,
+          author_id: input.author_id,
+        })
+        .executeTakeFirstOrThrow()
+        .then((r) => r.id);
+      return post;
     }),
 
-  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
-    return "success";
-  }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const post = await db
+        .selectFrom("posts")
+        .select("posts.id")
+        .where("id", "=", input.id)
+        .executeTakeFirst();
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      await db.deleteFrom("posts").where("id", "=", input.id).execute();
+
+      return post;
+    }),
 } satisfies TRPCRouterRecord;

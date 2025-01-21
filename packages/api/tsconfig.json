@@ -1,5 +1,5 @@
 {
   "extends": "@inf/tsconfig/internal-package.json",
-  "include": ["src"],
+  "include": ["src", "../db/src/kysely.ts"],
   "exclude": ["node_modules"]
 }

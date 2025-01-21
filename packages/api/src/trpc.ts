@@ -40,7 +40,7 @@ export const createTRPCContext = async (opts: {
   const session = await isomorphicGetSession(opts.headers);
 
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
-  console.log(">>> tRPC Request from", source, "by", session);
+  // console.log(">>> tRPC Request from", source, "by", session);
 
   return {
     session,

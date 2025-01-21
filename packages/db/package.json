@@ -4,9 +4,17 @@
   "private": true,
   "type": "module",
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
     "./types": {
       "types": "./dist/types.d.ts",
       "default": "./src/types.ts"
+    },
+    "./helpers": {
+      "helpers": "./dist/helpers.d.ts",
+      "default": "./src/helpers.ts"
     }
   },
   "license": "MIT",
@@ -16,9 +24,10 @@
     "dev": "tsc",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "push": "pnpm with-env pnpm prisma migrate dev --skip-seed && pnpm seed",
+    "push": "pnpm with-env prisma db push",
+    "studio": "pnpm with-env prisma studio",
     "seed": "pnpm with-env prisma db seed",
-    "migrate": "pnpm with-env npx prisma migrate dev",
+    "migrate": "pnpm with-env prisma migrate dev",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv -e ../../.env --"
   },
@@ -30,6 +39,7 @@
     "@inf/eslint-config": "workspace:*",
     "@inf/prettier-config": "workspace:*",
     "@inf/tsconfig": "workspace:*",
+    "@types/better-sqlite3": "^7.6.12",
     "@types/pg": "8.11.10",
     "@types/semver": "7.5.8",
     "dotenv": "16.4.5",
@@ -44,6 +54,7 @@
   },
   "dependencies": {
     "@prisma/client": "5.21.1",
+    "better-sqlite3": "^11.8.1",
     "prisma-kysely": "1.8.0",
     "semver": "7.6.3"
   },

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Simple monorepo with T3 stack",
     url: "https://inf.coop/career",
     siteName: "INF Code Assignment",
-  }
+  },
 };
 
 export const viewport: Viewport = {
