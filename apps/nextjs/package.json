@@ -11,7 +11,8 @@
     "lint": "eslint",
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env --",
+    "test": "NODE_ENV=test TEST_ENV=test pnpm with-env vitest"
   },
   "dependencies": {
     "@inf/api": "workspace:*",
@@ -35,15 +36,23 @@
     "@inf/prettier-config": "workspace:*",
     "@inf/tailwind-config": "workspace:*",
     "@inf/tsconfig": "workspace:*",
+    "@testing-library/react": "^16.2.0",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20.17.7",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
+    "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "16.4.5",
     "dotenv-cli": "^7.4.4",
     "eslint": "catalog:",
     "jiti": "^1.21.6",
+    "jsdom": "^26.0.0",
+    "next-router-mock": "^0.9.13",
     "prettier": "catalog:",
     "tailwindcss": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "catalog:"
   },
   "prettier": "@inf/prettier-config"
 }

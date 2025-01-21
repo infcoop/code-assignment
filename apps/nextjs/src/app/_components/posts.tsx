@@ -53,6 +53,7 @@ export function CreatePostForm() {
   return (
     <Form {...form}>
       <form
+        data-testid="post-form"
         className="flex w-full max-w-2xl flex-col gap-4"
         action={"/"}
         onSubmit={form.handleSubmit((data) => {

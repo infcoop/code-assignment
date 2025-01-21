@@ -29,7 +29,8 @@
     "seed": "pnpm with-env prisma db seed",
     "migrate": "pnpm with-env prisma migrate dev",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env --",
+    "test": "echo 'No test script defined, yet...'"
   },
   "prisma": {
     "seed": "echo 'No seed script defined, yet...'"

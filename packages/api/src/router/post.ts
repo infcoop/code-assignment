@@ -1,8 +1,8 @@
+import { randomUUID } from "node:crypto";
 import type { TRPCRouterRecord } from "@trpc/server";
 import type { Insertable } from "kysely";
 import type { ZodType } from "zod";
 import { z } from "zod";
-import { randomUUID } from 'node:crypto';
 
 import type { posts } from "@inf/db/types";
 import { db } from "@inf/db";

@@ -8,6 +8,7 @@
       "~/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }],
+    "types": ["node", "vitest/globals"],
     "module": "esnext"
   },
   "include": [".", ".next/types/**/*.ts"],

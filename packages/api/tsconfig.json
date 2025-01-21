@@ -1,5 +1,8 @@
 {
   "extends": "@inf/tsconfig/internal-package.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"]
+  },
   "include": ["src", "../db/src/kysely.ts"],
   "exclude": ["node_modules"]
 }
