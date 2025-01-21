@@ -60,7 +60,6 @@
   "globalPassThroughEnv": [
     "NODE_ENV",
     "CI",
-    "SSR",
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
