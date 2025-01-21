@@ -6,6 +6,8 @@ import {
   PostCardSkeleton,
   PostList,
 } from "./_components/posts";
+import infSvg from "../../public/inf-icon.svg";
+import Image from "next/image";
 
 export default function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
@@ -16,7 +18,8 @@ export default function HomePage() {
       <main className="container h-screen py-16">
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-primary">T3</span> Turbo
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+            Create <span><Image className="inline pb-2" src={infSvg?.src as string} alt="INF" width={128} height={128} /></span> Posts
           </h1>
 
           <CreatePostForm />
