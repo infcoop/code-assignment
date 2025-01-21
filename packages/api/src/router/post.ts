@@ -38,13 +38,35 @@ export const postRouter = {
     .mutation(async ({ ctx, input }) => {
       const post = await db
         .insertInto("posts")
-        .returning(["id"])
+        .returningAll()
         .values({
           id: randomUUID(),
+          ...input
+        })
+        .executeTakeFirstOrThrow()
+        .then((r) => r.id);
+      return post;
+    }),
+  
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        content: z.string(),
+        author_id: z.string(),
+      }) satisfies ZodType<Insertable<posts>>,
+    )
+    .mutation(async ({ ctx, input }) => {
+      const post = await db
+        .updateTable("posts")
+        .returningAll()
+        .set({
           title: input.title,
           content: input.content,
           author_id: input.author_id,
         })
+        .where("id", "=", input.id)
         .executeTakeFirstOrThrow()
         .then((r) => r.id);
       return post;

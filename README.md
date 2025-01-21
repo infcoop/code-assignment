@@ -39,14 +39,21 @@ This will start the Next.js web application.
 
 ## Assignment Details
 
-We’re excited to have you on board! This assignment is designed to give you and us a taste of what it’s like to work together. We love test-driven development, so your primary goal is to write meaningful unit tests, complete the tasks, and ensure all tests make sense and pass.
+> [!NOTE]
+>
+> We’re excited to have you on board! This assignment is designed to give you and us a taste of what it’s like to work together. We love test-driven development, so your primary goal is to write meaningful unit tests, complete the tasks, and ensure all tests make sense and pass.
 
 To get started, you can clone, fork, or submit a PR to this repo. However, we prefer that you clone or fork the repository, complete the tasks in a **private GitHub repo**, and invite us to review it. This ensures your submission remains confidential.
 
 ### If you're applying for a frontend role:
 - Navigate to `apps/nextjs` and locate the `__test__/*.test.tsx` files. You'll find predefined unit tests with some TODOs.
-- Enhance the existing tests with meaningful additions, then follow a test-driven approach to complete the tasks: **[Add placeholder for frontend task]**
-- Continue refining until all tests pass and tasks are completed.
+- Enhance the existing tests with meaningful additions, then follow a test-driven approach to complete the tasks: 
+
+  1. Start by reviewing the `TODOs` in the unit tests and implementing them thoughtfully. Focus on functionality first—don’t sweat the small stuff. Just ensure the tests are meaningful, clean, and pass successfully.
+
+![image](./screenshot.png)
+
+  2. Check out the screenshot. Our UX designer is currently unavailable, and while designing UIs isn’t your main responsibility at INF (we have members for that), we’d love to see your creative touch on the blog post list component. Think of your future colleagues as your users—bring in small but impactful improvements to make the experience better and more delightful.
 
 ### If you're applying for a backend role:
 - Explore `packages/api` and locate the `__test__/*.test.tsx` files. You'll find predefined unit tests with some TODOs.
