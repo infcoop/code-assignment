@@ -39,15 +39,37 @@ This will start the Next.js web application.
 
 ## Assignment Details
 
-**[Add specific code assignment tasks here]**
+We’re excited to have you on board! This assignment is designed to give you and us a taste of what it’s like to work together. We love test-driven development, so your primary goal is to write meaningful unit tests, complete the tasks, and ensure all tests make sense and pass.
+
+To get started, you can clone, fork, or submit a PR to this repo. However, we prefer that you clone or fork the repository, complete the tasks in a **private GitHub repo**, and invite us to review it. This ensures your submission remains confidential.
+
+### If you're applying for a frontend role:
+- Navigate to `apps/nextjs` and locate the `__test__/*.test.tsx` files. You'll find predefined unit tests with some TODOs.
+- Enhance the existing tests with meaningful additions, then follow a test-driven approach to complete the tasks: **[Add placeholder for frontend task]**
+- Continue refining until all tests pass and tasks are completed.
+
+### If you're applying for a backend role:
+- Explore `packages/api` and locate the `__test__/*.test.tsx` files. You'll find predefined unit tests with some TODOs.
+- Add meaningful tests to the suite and follow a test-driven approach to complete the tasks: **[Add placeholder for backend task]**
+- Work iteratively until all tests pass and tasks are successfully implemented.
+
+### If you're applying for a full-stack role:
+- Choose whether you'd like to tackle the frontend or backend tasks, or both!
+
+### Additional Notes:
+- Commit your code regularly to maintain a clean and structured Git history.
+- We encourage the use of AI tools like ChatGPT and GitHub Copilot – we use them too! Feel free to leverage them as you would in a real-world work environment.
+- Set up a comfortable workspace, grab your favorite snack, and enjoy working through the assignment.
+- Our estimated time to complete this assignment:
+  - **Project setup:** ~10 minutes
+  - **Understanding the tech stack:** ~30 minutes
+  - **Task completion:** 1-2 hours
+  - **Submission:** 10-20 minutes
+
+We will review your submission within the same time frame and get back to you with feedback or next steps. Your feedback on our time estimates is also highly appreciated.
 
 ---
 
-## Additional Notes
-
-- Make sure to commit your code regularly.
-- Follow best practices and maintain clean, readable code.
-- If you face any blockers, feel free to document them and suggest possible solutions.
-
 Good luck!
+
 

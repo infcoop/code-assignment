@@ -31,6 +31,10 @@
       "cache": false,
       "persistent": false
     },
+    "test:bail": {
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/.vitestcache"]
+    },
     "clean": {
       "cache": false
     },

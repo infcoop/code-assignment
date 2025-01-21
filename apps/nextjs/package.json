@@ -12,7 +12,8 @@
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --",
-    "test": "NODE_ENV=test TEST_ENV=test pnpm with-env vitest"
+    "test": "NODE_ENV=test TEST_ENV=test pnpm with-env vitest",
+    "test:bail": "NODE_ENV=test pnpm with-env vitest run --run --bail 1"
   },
   "dependencies": {
     "@inf/api": "workspace:*",
