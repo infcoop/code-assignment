@@ -1,5 +1,6 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { render } from "vitest.next.utils";
+
 import { CreatePostForm, PostList } from "../posts";
 
 describe("CreatePostForm Component", () => {
@@ -67,10 +68,10 @@ describe("PostList Component", () => {
   /* TODO: Add a test to check if clicking delete button triggers confirmation dialog */
   it.skip("should confirm deletion before removing a post", async () => {
     render(<PostList />);
-    
+
     const deleteButton = screen.getByText("DELETE");
     fireEvent.click(deleteButton);
-    
+
     /* Mock confirmation and test expected behavior */
   });
 });
@@ -79,76 +80,76 @@ describe("EditablePostTitle Component", () => {
   /* TODO: Add a test to check if clicking the title enables editing mode */
   it.skip("should enter edit mode when clicking on the title", async () => {
     // render(<EditablePostTitle value="Test Title" />);
-    
+
     const title = screen.getByText("Test Title");
     fireEvent.click(title);
-    
+
     /* Verify input field is displayed after click */
   });
 
   /* TODO: Add a test to verify save button updates the title */
   it.skip("should update the title on save", async () => {
     // render(<EditablePostTitle value="Old Title" />);
-    
+
     fireEvent.click(screen.getByText("Old Title"));
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "New Title" } });
-    
+
     /* Verify title is updated after save and title is not an input anymore */
   });
 
   /* TODO: Add a test to verify that edit mode gets cancelled on escape key */
   it.skip("should cancel edit mode on escape key", async () => {
     // render(<EditablePostTitle value="Old Title" />);
-    
+
     fireEvent.click(screen.getByText("Old Title"));
     fireEvent.keyDown(screen.getByRole("textbox"), { key: "Escape" });
-    
+
     /* Verify title is not an input anymore */
   });
 
   /* TODO: Add a test to verify that edit mode gets confirmed and saved on enter key */
   it.skip("should save edit mode on enter key", async () => {
     // render(<EditablePostTitle value="Old Title" />);
-    
+
     fireEvent.click(screen.getByText("Old Title"));
-    fireEvent.change(screen.getByRole("textbox"), { target: { value: "New Title" } });
+    fireEvent.change(screen.getByRole("textbox"), {
+      target: { value: "New Title" },
+    });
     fireEvent.keyDown(screen.getByRole("textbox"), { key: "Enter" });
-    
+
     /* Verify title is updated after save and title is not an input anymore */
   });
-
 
   /* TODO: Add a test to verify cancel button resets the title */
   it.skip("should reset the title on cancel", async () => {
     // render(<EditablePostTitle initialTitle="Original Title" />);
-    
+
     fireEvent.click(screen.getByText("Original Title"));
-    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Modified" } });
-    
+    fireEvent.change(screen.getByRole("textbox"), {
+      target: { value: "Modified" },
+    });
+
     fireEvent.click(screen.getByTestId("cancel"));
-    
+
     /* Verify title is reset to original value */
   });
 
   /* TODO: Add a test to verify created date is displayed as relative time (e.g. 5 minutes ago) */
   it.skip("should display created date as relative time", async () => {
     // render(<EditablePostTitle createdDate={new Date()} />);
-    
     /* Verify date is displayed as relative time */
   });
 
   /* TODO: Add a test to verify updated date is displayed as relative time (e.g. 5 minutes ago) */
   it.skip("should display updated date as relative time", async () => {
     // render(<EditablePostTitle updatedDate={new Date()} />);
-    
     /* Verify date is displayed as relative time */
   });
 
   /* TODO: Add a test to verify full date is displayed when hovering over relative time */
   it.skip("should display full date on hover", async () => {
     // render(<EditablePostTitle createdDate={new Date()} />);
-    
     /* Verify full date is displayed on hover */
   });
 });

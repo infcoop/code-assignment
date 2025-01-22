@@ -91,20 +91,23 @@ export function CreatePostForm() {
 }
 
 export function PostList() {
-  const [posts] = api.post.all.useSuspenseQuery();
+  const postsQuery = api.post.all.useQuery();
+  const posts = postsQuery.data ?? [];
 
   if (posts.length === 0) {
     return (
       <div className="relative flex min-h-16 w-full flex-col gap-4">
-        <PostCardSkeleton pulse={false} />
-        <PostCardSkeleton pulse={false} />
-        <PostCardSkeleton pulse={false} />
+        <PostCardSkeleton pulse={postsQuery.isFetching} />
+        <PostCardSkeleton pulse={postsQuery.isFetching} />
+        <PostCardSkeleton pulse={postsQuery.isFetching} />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-2xl font-bold text-stone-500/[0.5]">
-            No posts yet
-          </p>
-        </div>
+        {!postsQuery.isFetching && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-2xl font-bold text-stone-500/[0.5]">
+              No posts yet
+            </p>
+          </div>
+        )}
       </div>
     );
   }

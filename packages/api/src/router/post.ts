@@ -41,13 +41,13 @@ export const postRouter = {
         .returningAll()
         .values({
           id: randomUUID(),
-          ...input
+          ...input,
         })
         .executeTakeFirstOrThrow()
         .then((r) => r.id);
       return post;
     }),
-  
+
   update: protectedProcedure
     .input(
       z.object({
