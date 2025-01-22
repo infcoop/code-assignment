@@ -14,8 +14,8 @@ out/
 next-env.d.ts
 
 # db
-prisma/dev.db
-prisma/dev.db-journal
+prisma/db.dev
+prisma/db.dev-journal
 
 # production
 build
