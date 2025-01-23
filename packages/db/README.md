@@ -6,7 +6,7 @@ This package exist to make database development possible with prisma.
 
 - manage migrations
 - as ORM
-- as database client (alongside the supabase client)
+
 
 ## Development
 
