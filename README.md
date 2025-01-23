@@ -43,7 +43,7 @@ This will start the Next.js web application.
 >
 > We’re excited to have you on board! This assignment is designed to give you and us a taste of what it’s like to work together. We love test-driven development, so your primary goal is to write meaningful unit tests, complete the tasks, and ensure all tests make sense and pass.
 
-To get started, you can clone, fork, or submit a PR to this repo. However, we prefer that you clone or fork the repository, complete the tasks in a **private GitHub repo**, and invite us to review it. This ensures your submission remains confidential.
+To get started, you can clone, fork, or submit a PR to this repo. However, we prefer that you clone or fork the repository, complete the tasks in a **private GitHub repo**, and invite us (GitHub user @fuchsvomwalde) to review it. This ensures your submission remains confidential.
 
 ### If you're applying for a frontend role:
 - Navigate to `apps/nextjs` and locate the `__test__/*.test.tsx` files. You'll find predefined unit tests with some TODOs.
