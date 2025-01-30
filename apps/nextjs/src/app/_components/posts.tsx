@@ -40,11 +40,13 @@ export function CreatePostForm() {
     onSuccess: async () => {
       form.reset();
       await utils.post.invalidate();
+      // Sucess Feedback
+      toast.success("Post created successfully!");
     },
     onError: (err) => {
       toast.error(
         err.data?.code === "UNAUTHORIZED"
-          ? "You must be logged in to post"
+          ? "You must be logged in to create a post"
           : "Failed to create post",
       );
     },
@@ -66,7 +68,10 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input {...field} placeholder="Title" />
+                <Input {...field} placeholder="Enter a Title" />
+                <span className="absolute right-2 top-2 text-sm text-gray-500">
+                {field.value.length}/100
+                </span>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +83,7 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input {...field} placeholder="Content" />
+                <Input {...field} placeholder="Share your thoughts here.." />
               </FormControl>
               <FormMessage />
             </FormItem>
