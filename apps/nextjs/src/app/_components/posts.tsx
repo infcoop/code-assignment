@@ -20,15 +20,25 @@ import { Input } from "@inf/ui/input";
 import { toast } from "@inf/ui/toast";
 
 import { api } from "~/trpc/react";
-import {useMemo} from "react"
+import { useMemo, useState } from "react"
 
 export function CreatePostForm() {
+
+  // Validation schema
+  const formSchema = z.object({
+    title: z
+      .string()
+      .min(5, { message: "Title must be at least 5 characters long" })
+      .max(100, { message: "Title cannot exceed 100 characters" }),
+    content: z
+      .string()
+      .min(10, { message: "Content must be at least 10 characters long" })
+      .max(1000, { message: "Content cannot exceed 1000 characters" }),
+    author_id: z.string().min(1, { message: "Author ID is required" }),
+  }) satisfies ZodType<Insertable<posts>>;
+
   const form = useForm({
-    schema: z.object({
-      title: z.string(),
-      content: z.string(),
-      author_id: z.string(),
-    }) satisfies ZodType<Insertable<posts>>,
+    schema: formSchema,
     defaultValues: {
       content: "",
       title: "",
@@ -41,13 +51,12 @@ export function CreatePostForm() {
     onSuccess: async () => {
       form.reset();
       await utils.post.invalidate();
-      // Success Feedback
       toast.success("Post created successfully!");
     },
     onError: (err) => {
       toast.error(
         err.data?.code === "UNAUTHORIZED"
-          ? "You must be logged in to post"
+          ? "You must be logged in to create a post"
           : "Failed to create post",
       );
     },
@@ -87,6 +96,20 @@ export function CreatePostForm() {
             </FormItem>
           )}
         />
+
+        {/* Author ID Field */}
+        <FormField
+          control={form.control}
+          name="author_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input {...field} placeholder="Enter your author ID" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Create</Button>
       </form>
     </Form>
@@ -97,16 +120,16 @@ export function PostList() {
   // Destructure isFetching
   const { data: posts = [], isFetching } = api.post.all.useQuery();
 
-    // Memoize posts to avoid unnecessary recalculations
+  // Memoize posts to avoid unnecessary recalculations
   const memoizedPosts = useMemo(() => posts, [posts]);
 
   if (isFetching) {
     return (
       <div className="flex w-full flex-col gap-4">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <PostCardSkeleton key={i} pulse />
-      ))}
-    </div>
+        {Array.from({ length: 3 }).map((_, i) => (
+          <PostCardSkeleton key={i} pulse />
+        ))}
+      </div>
     );
   }
 
