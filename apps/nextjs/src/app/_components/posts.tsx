@@ -20,7 +20,7 @@ import { Input } from "@inf/ui/input";
 import { toast } from "@inf/ui/toast";
 
 import { api } from "~/trpc/react";
-import { useMemo, useState } from "react"
+import { useMemo, useState, memo } from "react"
 
 export function CreatePostForm() {
 
@@ -157,45 +157,58 @@ export function PostList() {
   );
 }
 
-export function PostCard(props: {
+export const PostCard = memo(function PostCard(props: {
   post: RouterOutputs["post"]["all"][number];
 }) {
-  const { title, content, author_id } = props.post;
+  const { title, content, author_id, id } = props.post;
   const utils = api.useUtils();
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const deletePost = api.post.delete.useMutation({
     onSuccess: async () => {
-      await utils.post.invalidate();
+      await utils.post.all.invalidate();
+      await utils.post.byId.invalidate({ id });
     },
     onError: (err) => {
-      toast.error(
-        err.data?.code === "UNAUTHORIZED"
-          ? "You must be logged in to delete a post"
-          : "Failed to delete post",
-      );
+      if (err.data?.code === "UNAUTHORIZED") {
+        toast.error("You must be logged in to delete a post");
+      } else if (err.data?.code === "NOT_FOUND") {
+        toast.error("Post not found or already deleted");
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     },
   });
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this post?");
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    await deletePost.mutateAsync({ id });
+    setIsDeleting(false);
+  };
 
   return (
     <div className="flex flex-row rounded-lg bg-muted p-4">
       <div className="flex-grow">
         <h2 className="text-2xl font-bold text-primary">{title}</h2>
         <p className="mt-2 text-sm">{content}</p>
-        <p className="mt-2 text-xs">
-          Posted by {author_id}
-        </p>
+        <p className="mt-2 text-xs">Posted by {author_id}</p>
       </div>
       <div>
         <Button
           variant="ghost"
           className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-black"
-          onClick={() => deletePost.mutate({ id: props.post.id })}
+          onClick={handleDelete}
+          disabled={isDeleting}
         >
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </Button>
       </div>
     </div>
   );
-}
+});
 
 export function PostCardSkeleton(props: { pulse?: boolean }) {
   const { pulse = true } = props;
