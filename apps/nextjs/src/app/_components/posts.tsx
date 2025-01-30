@@ -20,6 +20,7 @@ import { Input } from "@inf/ui/input";
 import { toast } from "@inf/ui/toast";
 
 import { api } from "~/trpc/react";
+import {useMemo} from "react"
 
 export function CreatePostForm() {
   const form = useForm({
@@ -40,13 +41,13 @@ export function CreatePostForm() {
     onSuccess: async () => {
       form.reset();
       await utils.post.invalidate();
-      // Sucess Feedback
+      // Success Feedback
       toast.success("Post created successfully!");
     },
     onError: (err) => {
       toast.error(
         err.data?.code === "UNAUTHORIZED"
-          ? "You must be logged in to create a post"
+          ? "You must be logged in to post"
           : "Failed to create post",
       );
     },
@@ -68,10 +69,7 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input {...field} placeholder="Enter a Title" />
-                <span className="absolute right-2 top-2 text-sm text-gray-500">
-                {field.value.length}/100
-                </span>
+                <Input {...field} placeholder="Enter a Title..." />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,17 +94,27 @@ export function CreatePostForm() {
 }
 
 export function PostList() {
-  const postsQuery = api.post.all.useQuery();
-  const posts = postsQuery.data ?? [];
+  // Destructure isFetching
+  const { data: posts = [], isFetching } = api.post.all.useQuery();
 
-  if (posts.length === 0) {
+    // Memoize posts to avoid unnecessary recalculations
+  const memoizedPosts = useMemo(() => posts, [posts]);
+
+  if (isFetching) {
+    return (
+      <div className="flex w-full flex-col gap-4">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <PostCardSkeleton key={i} pulse />
+      ))}
+    </div>
+    );
+  }
+
+
+  if (memoizedPosts.length === 0) {
     return (
       <div className="relative flex min-h-16 w-full flex-col gap-4">
-        <PostCardSkeleton pulse={postsQuery.isFetching} />
-        <PostCardSkeleton pulse={postsQuery.isFetching} />
-        <PostCardSkeleton pulse={postsQuery.isFetching} />
-
-        {!postsQuery.isFetching && (
+        {!isFetching && (
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <p className="text-2xl font-bold text-stone-500/[0.5]">
               No posts yet
@@ -119,7 +127,7 @@ export function PostList() {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {posts.map((p) => {
+      {memoizedPosts.map((p) => {
         return <PostCard key={p.id} post={p} />;
       })}
     </div>
@@ -152,7 +160,7 @@ export function PostCard(props: {
       <div>
         <Button
           variant="ghost"
-          className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
+          className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-black"
           onClick={() => deletePost.mutate({ id: props.post.id })}
         >
           Delete
