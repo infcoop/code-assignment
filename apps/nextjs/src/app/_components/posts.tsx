@@ -160,6 +160,7 @@ export function PostList() {
 export function PostCard(props: {
   post: RouterOutputs["post"]["all"][number];
 }) {
+  const { title, content, author_id } = props.post;
   const utils = api.useUtils();
   const deletePost = api.post.delete.useMutation({
     onSuccess: async () => {
@@ -177,8 +178,11 @@ export function PostCard(props: {
   return (
     <div className="flex flex-row rounded-lg bg-muted p-4">
       <div className="flex-grow">
-        <h2 className="text-2xl font-bold text-primary">{props.post.title}</h2>
-        <p className="mt-2 text-sm">{props.post.content}</p>
+        <h2 className="text-2xl font-bold text-primary">{title}</h2>
+        <p className="mt-2 text-sm">{content}</p>
+        <p className="mt-2 text-xs">
+          Posted by {author_id}
+        </p>
       </div>
       <div>
         <Button
