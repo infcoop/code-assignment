@@ -21,6 +21,7 @@ import { toast } from "@inf/ui/toast";
 
 import { api } from "~/trpc/react";
 import { useMemo, useState, memo } from "react"
+import { EditablePostTitle } from "./EditablePostTitle";
 
 export function CreatePostForm() {
 
@@ -90,7 +91,7 @@ export function CreatePostForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input {...field} placeholder="Share your thoughts here.." />
+                <Input {...field} placeholder="Share your thoughts here..." />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -157,12 +158,12 @@ export function PostList() {
   );
 }
 
-export const PostCard = memo(function PostCard(props: {
-  post: RouterOutputs["post"]["all"][number];
-}) {
+export const PostCard = memo(function PostCard(props: { post: RouterOutputs["post"]["all"][number] }) {
   const { title, content, author_id, id } = props.post;
   const utils = api.useUtils();
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const deletePost = api.post.delete.useMutation({
     onSuccess: async () => {
@@ -189,10 +190,24 @@ export const PostCard = memo(function PostCard(props: {
     setIsDeleting(false);
   };
 
+  const handleEdit = () => {
+    setIsEditing(true); // Set to true to enable editing mode for title
+  };
+
   return (
     <div className="flex flex-row rounded-lg bg-muted p-4">
       <div className="flex-grow">
-        <h2 className="text-2xl font-bold text-primary">{title}</h2>
+        <EditablePostTitle
+          value={title}
+          createdDate={new Date()}
+          updatedDate={new Date()}
+          onSave={(newTitle) => {
+            console.log("New Title:", newTitle);
+            // Add save functionality here
+            setIsEditing(false); // Set to false after saving
+          }}
+          onClick={handleEdit} // Handle title click to enable editing
+        />
         <p className="mt-2 text-sm">{content}</p>
         <p className="mt-2 text-xs">Posted by {author_id}</p>
       </div>
@@ -209,6 +224,7 @@ export const PostCard = memo(function PostCard(props: {
     </div>
   );
 });
+
 
 export function PostCardSkeleton(props: { pulse?: boolean }) {
   const { pulse = true } = props;
