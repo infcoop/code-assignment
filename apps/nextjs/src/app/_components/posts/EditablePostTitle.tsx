@@ -14,6 +14,8 @@ interface EditablePostTitleProps {
   id: string;
 }
 
+// Here i need to add content and author_id, becuase in backend for update query both of these fields are also required.
+
 export function EditablePostTitle({
   title,
   content,
