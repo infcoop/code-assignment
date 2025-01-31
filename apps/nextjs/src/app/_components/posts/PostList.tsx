@@ -8,8 +8,14 @@ import { PostCard } from "./PostCard";
 export function PostList() {
     // Destructure isFetching
     const { data: posts = [], isFetching } = api.post.all.useQuery();
+
+    // Sort posts by created_at in descending order
+    const sortedPosts = [...posts].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
     // Memoize posts to avoid unnecessary recalculations
-    const memoizedPosts = useMemo(() => posts, [posts]);
+    const memoizedPosts = useMemo(() => sortedPosts, [sortedPosts]);
   
     if (isFetching) {
       return (
