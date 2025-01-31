@@ -9,21 +9,17 @@ interface EditablePostTitleProps {
   title: string;
   content: string;
   author_id: string;
-  createdDate?: Date;
-  updatedDate?: Date;
+  created_at?: string;
+  updated_at?: string;
   id: string;
 }
 
 // Here i need to add content and author_id, becuase in backend for update query both of these fields are also required.
 
-export function EditablePostTitle({
-  title,
-  content,
-  author_id,
-  createdDate,
-  updatedDate,
-  id,
-}: EditablePostTitleProps) {
+export function EditablePostTitle(props: EditablePostTitleProps) {
+   
+  const {title, id, content, author_id,created_at, updated_at} = props
+
   const [isEditing, setIsEditing] = useState(false);
   const [intialTitle, setIntialTitle] = useState(title);
   const [newTitle, setNewTitle] = useState(title);
@@ -50,7 +46,9 @@ export function EditablePostTitle({
       updatePost.mutate({
         id, title: newTitle,
         content,
-        author_id
+        author_id,
+
+        updated_at: new Date().toDateString()
       }); // Call update mutation
     }
     
@@ -87,14 +85,14 @@ export function EditablePostTitle({
           {intialTitle}
         </h2>
       )}
-      {createdDate && (
+      {created_at && (
         <p className="text-sm text-gray-500">
-          Created: {formatRelative(createdDate, new Date())}
+          Created: {created_at}
         </p>
       )}
-      {updatedDate && (
+      {updated_at && (
         <p className="text-sm text-gray-500">
-          Updated: {formatRelative(updatedDate, new Date())}
+          Updated: {updated_at}
         </p>
       )}
     </div>

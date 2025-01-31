@@ -46,8 +46,8 @@ export function CreatePostForm() {
   const utils = api.useUtils();
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
-      form.reset();
       await utils.post.invalidate();
+      form.reset();
       toast.success("Post created successfully!");
     },
     onError: (err) => {

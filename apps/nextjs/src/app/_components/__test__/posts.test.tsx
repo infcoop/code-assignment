@@ -1,11 +1,15 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { render } from "vitest.next.utils";
+import { vi } from 'vitest';
 import { CreatePostForm, PostList, PostCard } from "../posts";
-import { EditablePostTitle } from "../posts/EditablePostTitle"
+import { EditablePostTitle } from "../posts/EditablePostTitle";4
 import { formatRelative } from "date-fns";
 
 // Mock window.confirm to simulate user interaction with the confirmation dialog
-global.confirm = vi.fn();
+beforeEach(() => {
+  global.confirm = vi.fn();
+});
+
 
 describe("CreatePostForm Component", () => {
   it("should render the form correctly", async () => {
@@ -49,12 +53,6 @@ describe("CreatePostForm Component", () => {
     fireEvent.change(contentInput, { target: { value: "Sample Content" } });
     fireEvent.change(authorIdInput, { target: { value: "author123" } });
 
-    console.log("Before clicking Create:", {
-      title: titleInput.getAttribute("value"),
-      content: contentInput.getAttribute("value"),
-      authorId: authorIdInput.getAttribute("value"),
-    });
-
     fireEvent.click(createButton);
 
     await waitFor(() => {
@@ -84,73 +82,111 @@ describe("CreatePostForm Component", () => {
 
 describe("PostList Component", () => {
   /* TODO: Add a test to check if clicking delete button triggers confirmation dialog */
-  it.only("should confirm deletion before removing a post", async () => {
+  it('should confirm deletion before removing a post', async () => {
+    // Mock the `window.confirm` dialog
+    const confirmMock = vi.spyOn(window, 'confirm').mockImplementation(() => true);
+
+    // Render the component
     render(<PostList />);
 
-    const deleteButton = screen.getByText("DELETE");
+    // Find the delete button (assuming it has the text "Delete")
+    const deleteButton = screen.getByText('Delete');
+    expect(deleteButton).not.toBe(null);
+
+    // Simulate a click on the delete button
     fireEvent.click(deleteButton);
 
-    /* Mock confirmation and test expected behavior */
+    // Assert that the confirmation dialog was triggered
+    expect(confirmMock).toHaveBeenCalledWith('Are you sure you want to delete this post?');
+
+    // Clean up the mock
+    confirmMock.mockRestore();
   });
 });
 
 describe("EditablePostTitle Component", () => {
   /* TODO: Add a test to check if clicking the title enables editing mode */
-  it.skip("should enter edit mode when clicking on the title", async () => {
-    // render(<EditablePostTitle value="Test Title" />);
+  it("should enter edit mode when clicking on the title", async () => {
+    render(<EditablePostTitle title="Test Title" content="Test Content" author_id="123" id="1" />);
 
+    // Get the title element
     const title = screen.getByText("Test Title");
+
+    // Simulate clicking on the title to enable editing mode
     fireEvent.click(title);
 
-    /* Verify input field is displayed after click */
+    // Verify that the input field is displayed
+    const input = screen.getByRole("textbox");
+    expect(input).not.toBe(null);
   });
 
   /* TODO: Add a test to verify save button updates the title */
-  it.skip("should update the title on save", async () => {
-    // render(<EditablePostTitle value="Old Title" />);
+  it("should update the title on save", async () => {
+    render(<EditablePostTitle title="Test Title" content="Test Content" author_id="123" id="1" />);
 
-    fireEvent.click(screen.getByText("Old Title"));
+    // Click the title to enter editing mode
+    fireEvent.click(screen.getByText("Test Title"));
+
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "New Title" } });
 
-    /* Verify title is updated after save and title is not an input anymore */
+    // Click the save button
+    fireEvent.click(screen.getByText("Save"));
+
+    // Verify the title has been updated
+    expect(screen.getByText("New Title")).not.toBe(null);
   });
 
   /* TODO: Add a test to verify that edit mode gets cancelled on escape key */
-  it.skip("should cancel edit mode on escape key", async () => {
-    // render(<EditablePostTitle value="Old Title" />);
+  it("should cancel edit mode on escape key", async () => {
+    render(<EditablePostTitle title="Old Title" content="Test Content" author_id="123" id="1" />);
 
+    // Click on the title to enter edit mode
     fireEvent.click(screen.getByText("Old Title"));
-    fireEvent.keyDown(screen.getByRole("textbox"), { key: "Escape" });
-
-    /* Verify title is not an input anymore */
+  
+    // Ensure the input field is visible
+    const input = screen.getByRole("textbox");
+    expect(input).not.toBe(null);
+  
+    // Simulate pressing the Escape key to cancel edit mode
+    fireEvent.keyDown(input, { key: "Escape" });
+  
+    // Verify that the input field is no longer visible and the title is restored
+    expect(input).not.toBe(null);
+    expect(screen.getByText("Old Title")).not.toBe(null);
   });
 
   /* TODO: Add a test to verify that edit mode gets confirmed and saved on enter key */
-  it.skip("should save edit mode on enter key", async () => {
-    // render(<EditablePostTitle value="Old Title" />);
+  it("should save edit mode on enter key", async () => {
+    render(<EditablePostTitle title="Old Title" content="Test Content" author_id="123" id="1" />);
 
     fireEvent.click(screen.getByText("Old Title"));
+    const input = screen.getByRole("textbox");
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "New Title" },
     });
     fireEvent.keyDown(screen.getByRole("textbox"), { key: "Enter" });
 
     /* Verify title is updated after save and title is not an input anymore */
+     expect(input).not.toBe(null);
+     expect(screen.getByText("New Title")).not.toBe(null);
   });
 
   /* TODO: Add a test to verify cancel button resets the title */
-  it.skip("should reset the title on cancel", async () => {
-    // render(<EditablePostTitle initialTitle="Original Title" />);
+  it("should reset the title on cancel", async () => {
+    render(<EditablePostTitle title="Original Title" content="Test Content" author_id="123" id="1" />);
 
     fireEvent.click(screen.getByText("Original Title"));
+    const input = screen.getByRole("textbox");
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "Modified" },
     });
 
-    fireEvent.click(screen.getByTestId("cancel"));
+    fireEvent.click(screen.getByText("Cancel"));
 
     /* Verify title is reset to original value */
+    expect(input).not.toBe(null);
+    expect(screen.getByText("Original Title")).not.toBe(null);
   });
 
   /* TODO: Add a test to verify created date is displayed as relative time (e.g. 5 minutes ago) */

@@ -55,6 +55,7 @@ export const postRouter = {
         title: z.string(),
         content: z.string(),
         author_id: z.string(),
+        updated_at: z.string()
       }) satisfies ZodType<Insertable<posts>>,
     )
     .mutation(async ({ ctx, input }) => {
