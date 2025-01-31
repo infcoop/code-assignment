@@ -1,7 +1,11 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { render } from "vitest.next.utils";
+import { CreatePostForm, PostList, PostCard } from "../posts";
+import { EditablePostTitle } from "../posts/EditablePostTitle"
+import { formatRelative } from "date-fns";
 
-import { CreatePostForm, PostList } from "../posts";
+// Mock window.confirm to simulate user interaction with the confirmation dialog
+global.confirm = vi.fn();
 
 describe("CreatePostForm Component", () => {
   it("should render the form correctly", async () => {
@@ -12,8 +16,9 @@ describe("CreatePostForm Component", () => {
   it("should have title and content input fields", async () => {
     render(<CreatePostForm />);
 
-    const titleInput = screen.getByPlaceholderText("Title");
-    const contentInput = screen.getByPlaceholderText("Content");
+    const titleInput = screen.getByPlaceholderText("Enter a Title...");
+    const contentInput = screen.getByPlaceholderText("Share your thoughts here...");
+    console.log(titleInput, contentInput)
 
     expect(titleInput).not.toBe(null);
     expect(contentInput).not.toBe(null);
@@ -22,8 +27,8 @@ describe("CreatePostForm Component", () => {
   it("should allow user to type in input fields", async () => {
     render(<CreatePostForm />);
 
-    const titleInput = screen.getByPlaceholderText("Title");
-    const contentInput = screen.getByPlaceholderText("Content");
+    const titleInput = screen.getByPlaceholderText("Enter a Title...");
+    const contentInput = screen.getByPlaceholderText("Share your thoughts here...");
 
     fireEvent.change(titleInput, { target: { value: "Test Title" } });
     fireEvent.change(contentInput, { target: { value: "Test Content" } });
@@ -35,38 +40,51 @@ describe("CreatePostForm Component", () => {
   it("should submit the form when clicking the Create button", async () => {
     render(<CreatePostForm />);
 
-    const titleInput = screen.getByPlaceholderText("Title");
-    const contentInput = screen.getByPlaceholderText("Content");
+    const titleInput = screen.getByPlaceholderText("Enter a Title...");
+    const contentInput = screen.getByPlaceholderText("Share your thoughts here...");
+    const authorIdInput = screen.getByPlaceholderText("Enter your author ID");
     const createButton = screen.getByText("Create");
 
     fireEvent.change(titleInput, { target: { value: "Sample Post" } });
     fireEvent.change(contentInput, { target: { value: "Sample Content" } });
+    fireEvent.change(authorIdInput, { target: { value: "author123" } });
+
+    console.log("Before clicking Create:", {
+      title: titleInput.getAttribute("value"),
+      content: contentInput.getAttribute("value"),
+      authorId: authorIdInput.getAttribute("value"),
+    });
 
     fireEvent.click(createButton);
 
     await waitFor(() => {
       expect(titleInput.getAttribute("value")).toBe(""); // Form should reset after submission
       expect(contentInput.getAttribute("value")).toBe("");
+      expect(authorIdInput.getAttribute("value")).toBe("");
     });
   });
 
   /* TODO: Add a test to check if error message is displayed when no title and content are set */
-  it.skip("should display an error message and highlight fields if no title and content are set", async () => {
+  it("should display an error message and highlight fields if no title and content are set", async () => {
     render(<CreatePostForm />);
 
     const createButton = screen.getByText("Create");
     fireEvent.click(createButton);
 
     await waitFor(() => {
-      const errorMessage = screen.getByText("Title and content is required");
-      expect(errorMessage).not.toBe(null);
+      const errorTitleMessage = screen.getByText("Title must be at least 5 characters long");
+      const errorContentMessage = screen.getByText("Content must be at least 10 characters long");
+      const errorAuthorIdMessage = screen.getByText("Author ID is required");
+      expect(errorTitleMessage).not.toBe(null);
+      expect(errorContentMessage).not.toBe(null);
+      expect(errorAuthorIdMessage).not.toBe(null);
     });
   });
 });
 
 describe("PostList Component", () => {
   /* TODO: Add a test to check if clicking delete button triggers confirmation dialog */
-  it.skip("should confirm deletion before removing a post", async () => {
+  it.only("should confirm deletion before removing a post", async () => {
     render(<PostList />);
 
     const deleteButton = screen.getByText("DELETE");
