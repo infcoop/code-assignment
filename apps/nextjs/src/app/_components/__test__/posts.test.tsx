@@ -191,8 +191,15 @@ describe("EditablePostTitle Component", () => {
 
   /* TODO: Add a test to verify created date is displayed as relative time (e.g. 5 minutes ago) */
   it.skip("should display created date as relative time", async () => {
-    // render(<EditablePostTitle createdDate={new Date()} />);
-    /* Verify date is displayed as relative time */
+    const createdDate = new Date().toDateString();
+  
+    render(<EditablePostTitle title="Test Title" content="Test Content" author_id="123" id="1" created_at={createdDate} />);
+    
+    // Calculate the expected relative time
+    const relativeTime = formatRelative(createdDate, new Date());
+  
+    // Verify that the created date is displayed as relative time
+    expect(screen.getByText(new RegExp(relativeTime))).not.toBe(null);
   });
 
   /* TODO: Add a test to verify updated date is displayed as relative time (e.g. 5 minutes ago) */

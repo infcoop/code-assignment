@@ -18,7 +18,10 @@ interface EditablePostTitleProps {
 
 export function EditablePostTitle(props: EditablePostTitleProps) {
    
-  const {title, id, content, author_id,created_at, updated_at} = props
+  const {title, id, content, author_id,created_at, updated_at} = props;
+
+  const createdAtRelative = created_at ? formatRelative(new Date(created_at), new Date()) : null;
+  const updatedAtRelative = updated_at ? formatRelative(new Date(updated_at), new Date()) : null;
 
   const [isEditing, setIsEditing] = useState(false);
   const [intialTitle, setIntialTitle] = useState(title);
@@ -85,14 +88,14 @@ export function EditablePostTitle(props: EditablePostTitleProps) {
           {intialTitle}
         </h2>
       )}
-      {created_at && (
+      {createdAtRelative && (
         <p className="text-sm text-gray-500">
-          Created: {created_at}
+          Created: {createdAtRelative}
         </p>
       )}
-      {updated_at && (
+      {updatedAtRelative && (
         <p className="text-sm text-gray-500">
-          Updated: {updated_at}
+          Updated: {updatedAtRelative}
         </p>
       )}
     </div>
