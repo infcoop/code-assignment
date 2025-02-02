@@ -74,18 +74,21 @@ Goal is to implement the functionality of commenting on posts.
 
   1. **Minimal Feature Scope**: Ensure a basic version (backend & frontend) of commenting is functional and tested in a way that you would be comfortable to ship the feature. 
 
-  2. **ß
-
 - Work iteratively until all tests pass and tasks are successfully implemented.
 
 ### Additional Notes:
 - Commit your code regularly to maintain a clean and structured Git history.
 - We encourage the use of AI tools like ChatGPT and GitHub Copilot – we use them too! Feel free to leverage them as you would in a real-world work environment.
 - Set up a comfortable workspace, grab your favorite snack, and enjoy working through the assignment.
+
+> [!NOTE]
+>
+> Please **do not invest more than 4 hours** in this assignment. We follow the same principle and do not spend more than 2 hours reviewing a single submission. After 4 hours, submit whatever you have completed, regardless of progress. We value efficiency and real-world prioritization over perfection.
+
 - Our estimated time to complete this assignment:
   - **Project setup:** ~10 minutes
-  - **Understanding the tech stack:** ~30 minutes
-  - **Task completion:** 1-2 hours
+  - **Understanding the tech stack:** ~30-60 minutes *(depends on your experience)*
+  - **Task completion:** 3-5 hours *(so please prioritize, to ensure you can submit something within 4 hours)*
   - **Submission:** 10-20 minutes
 
 We will review your submission within the same time frame and get back to you with feedback or next steps. Your feedback on our time estimates is also highly appreciated.
