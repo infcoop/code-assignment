@@ -146,10 +146,4 @@ describe("EditablePostTitle Component", () => {
     // render(<EditablePostTitle updatedDate={new Date()} />);
     /* Verify date is displayed as relative time */
   });
-
-  /* TODO: Add a test to verify full date is displayed when hovering over relative time */
-  it.skip("should display full date on hover", async () => {
-    // render(<EditablePostTitle createdDate={new Date()} />);
-    /* Verify full date is displayed on hover */
-  });
 });
