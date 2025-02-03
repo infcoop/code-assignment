@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Image from "next/image";
 
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 import infSvg from "../../public/inf-logo-large.svg";
 import {
   CreatePostForm,
@@ -12,39 +12,39 @@ import {
 export default function HomePage() {
   return (
     <HydrateClient>
-      <main className="container h-screen py-16">
-        <div className="flex flex-col items-center justify-center gap-4">
-          <h1 className="text-5xl font-thin tracking-tight sm:text-[5rem]">
-            Create{" "}
-            <span>
-              <Image
-                className="inline pb-4"
-                /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
-                src={infSvg?.src}
-                alt="INF"
-                width={128}
-                height={128}
-              />
-            </span>{" "}
-            Posts
-          </h1>
+      <Suspense fallback={<PostListSkeleton />}>
+        <main className="container h-screen py-16">
+          <div className="flex flex-col items-center justify-center gap-4">
+            <h1 className="text-5xl font-thin tracking-tight sm:text-[5rem]">
+              Create{" "}
+              <span>
+                <Image
+                  className="inline pb-4"
+                  src={infSvg.src}
+                  alt="INF"
+                  width={128}
+                  height={128}
+                  priority
+                />
+              </span>{" "}
+              Posts
+            </h1>
 
-          <CreatePostForm />
-          <div className="w-full max-w-2xl overflow-y-scroll">
-            <Suspense
-              fallback={
-                <div className="flex w-full flex-col gap-4">
-                  <PostCardSkeleton />
-                  <PostCardSkeleton />
-                  <PostCardSkeleton />
-                </div>
-              }
-            >
+            <CreatePostForm />
+            <div className="w-full max-w-2xl h-[200px] overflow-y-auto">
               <PostList />
-            </Suspense>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </Suspense>
     </HydrateClient>
   );
 }
+
+const PostListSkeleton = () => (
+  <div className="flex w-full flex-col gap-4">
+    <PostCardSkeleton />
+    <PostCardSkeleton />
+    <PostCardSkeleton />
+  </div>
+);
